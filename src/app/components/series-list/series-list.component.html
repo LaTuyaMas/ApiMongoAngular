@@ -1,1 +1,79 @@
-<p>series-list works!</p>
+<div class="container-fluid">
+
+  <div class="w-100 d-flex">
+    <h3 class="mt-2 d-inline-block me-auto">{{series.length}}
+      películas</h3>
+    <h3 class="d-inline-block ms-auto pointer"
+        (click)="newSerie()"
+        data-bs-toggle="modal"
+        data-bs-target="#miModal"> Add movie
+      <i class="fas fa-plus-circle pointer"></i></h3>
+  </div>
+
+  <div class="container"
+       *ngFor="let s of series">
+    <div class="row border rounded">
+      <div class="col-md-11">
+        <div (click)="loadSerie(s)" data-bs-toggle="modal"
+             data-bs-target="#miModal" class="row mt-3 pt-2">
+          <div class="col-md-2">
+            <img src="{{s.images[0] ||
+'assets/images/no-image-icon.jpg'}}" alt="{{s.title}}">
+          </div>
+          <div class="col-md-9">
+            <h5>{{s.title}}</h5>
+            <small class="text-danger">{{s.categories}}</small>
+            <p><b>Episodes</b>: {{s.episodes}} - <b>Year</b>:
+              {{s.year}}</p>
+            <small>{{s.plot}}</small>
+          </div>
+          <div class="col-md-1 align-self-center align-middle">
+            <small class="badge bg-success p-3">{{puntuacionMedia2(s)}}</small>
+          </div>
+          <div class="pb-2"></div>
+        </div>
+      </div>
+
+      <div class="col-md-1 remove d-flex">
+        <h3 class="ms-auto align-self-center">
+          <i (click)="removeSerie(s)"
+             class="fas fa-times"></i></h3>
+      </div>
+    </div>
+
+    <div class="mb-2"></div>
+
+    <!-- Fin del NgFor →
+         Modal -->
+    <div class="modal fade" id="miModal"
+         tabindex="-1" aria-labelledby="miModalLabel"
+         aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="miModalLabel">
+              {{s.title}}</h5>
+            <button type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"></button>
+
+          </div>
+          <div class="modal-body">
+            ...
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary"
+
+                    data-bs-dismiss="modal">Close</button>
+
+            <button type="button" class="btn btn-primary">Save
+
+              changes</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
