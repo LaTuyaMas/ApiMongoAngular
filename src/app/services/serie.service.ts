@@ -21,4 +21,16 @@ export class SerieService {
   updateSerie(id: string, serie: Serie) {
     return this.http.put(this.baseURL+"/"+id, serie);
   }
+
+  getCategories(): Observable<string[]> {
+    return this.http.get<string[]>(this.baseURL+'/categories');
+  }
+
+  createSerie(serie: Serie) {
+    return this.http.post(this.baseURL, serie);
+  }
+
+  removeSerie(id: string) {
+    return this.http.delete(this.baseURL+'/'+id);
+  }
 }

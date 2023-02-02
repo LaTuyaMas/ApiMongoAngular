@@ -2,6 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {Serie} from "../../common/serie";
 import {SerieService} from "../../services/serie.service";
 import {FormBuilder, FormControl, FormGroup} from "@angular/forms";
+import {CategorieService} from "../../services/categorie.service";
+import {Categorie} from "../../common/categorie";
 
 @Component({
   selector: 'app-series-list',
@@ -12,19 +14,18 @@ export class SeriesListComponent implements OnInit{
 
   series: Serie[] = [];
 
-  formMovie: FormGroup = this.formBuilder.group({
+  formSerie: FormGroup = this.formBuilder.group({
     _id: [''],
-    __v: [0],
     images: [''],
     title: [''],
     categories: [''],
     episodes: [0],
     year: [0],
-    plot: [''],
-    user_score: this.formBuilder.group({
-      email: [''],
-      votes: [0]
-    })
+    plot: ['']
+    //user_score: this.formBuilder.group({
+    //  email: [''],
+    //  score: [0]
+    //})
 
   });
 
@@ -32,17 +33,16 @@ export class SeriesListComponent implements OnInit{
     newCategorie: new FormControl('')
   });
 
-  genres: string[] = [];
+  categories: string[] = [];
+  categories2: Categorie[] = [];
 
   editar = false;
 
-  constructor(private serieService: SerieService, private formBuilder: FormBuilder) {}
+  constructor(private serieService: SerieService,
+              private categorieService: CategorieService,
+              private formBuilder: FormBuilder) {}
 
-  // GETTERS
-
-  // GETTERS
-
-  ngOnInit() {
+  ngOnInit(): void {
     this.listSeries();
   }
 
@@ -50,6 +50,18 @@ export class SeriesListComponent implements OnInit{
     this.serieService.getSerieList().subscribe(
       (data: any) => {
         this.series = data;
+      }
+    );
+
+    this.serieService.getCategories().subscribe(
+      (data:any) => {
+        this.categories = data;
+      }
+    );
+
+    this.categorieService.getCategorieList().subscribe(
+      (data:any) => {
+        this.categories2 = data;
       }
     );
   }
@@ -61,5 +73,67 @@ export class SeriesListComponent implements OnInit{
     });
     let media = total / serie.user_score.length;
     return Math.round(media * 10) / 10;
+  }
+
+  onSubmit() {
+    if (this.editar) {
+      const id = this.formSerie.getRawValue()._id;
+      this.serieService.updateSerie(id,
+        this.formSerie.getRawValue()).subscribe(
+        (data:any) => {
+          this.listSeries();
+        }
+      );
+    }
+    else {
+      this.serieService.createSerie(this.formSerie.getRawValue()).subscribe(
+        (data:any) => {
+          console.log(data);
+          this.listSeries();
+        }
+      );
+    }
+  }
+
+  loadSerie(serie: Serie) {
+    this.editar = true;
+    console.log("Editar esta en "+this.editar);
+    console.log(serie);
+    this.formSerie.setValue(serie);
+    console.log(this.formSerie);
+  }
+
+  newSerie() {
+    this.formSerie.reset();
+    this.editar = false;
+  }
+
+  addNewCategorie(newCategorie: string) {
+    let newCategories;
+
+    if (!this.editar) {
+      this.categories.push(newCategorie);
+    }
+    else {
+      newCategories = this.formSerie.getRawValue().categories;
+      newCategories.push(newCategorie);
+      this.formSerie.setControl(
+        'categories',
+        new FormControl(newCategories)
+      );
+    }
+
+    this.mynewCategorie.reset();
+  }
+
+  removeSerie(serie: Serie) {
+    if (confirm('Desea borrar '+serie.title+'?')) {
+      this.serieService.removeSerie(serie._id).subscribe(
+        data => {
+          console.log(data);
+          this.listSeries();
+        }
+      );
+    }
   }
 }

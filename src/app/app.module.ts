@@ -6,6 +6,7 @@ import { AppComponent } from './app.component';
 import { SeriesListComponent } from './components/series-list/series-list.component';
 import { NavigationComponent } from './components/navigation/navigation.component';
 import {HttpClientModule} from "@angular/common/http";
+import {ReactiveFormsModule} from "@angular/forms";
 
 @NgModule({
   declarations: [
@@ -13,11 +14,12 @@ import {HttpClientModule} from "@angular/common/http";
     SeriesListComponent,
     NavigationComponent
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    HttpClientModule
-  ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        HttpClientModule,
+        ReactiveFormsModule
+    ],
   providers: [],
   bootstrap: [AppComponent]
 })
