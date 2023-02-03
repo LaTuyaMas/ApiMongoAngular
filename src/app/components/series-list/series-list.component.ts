@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {Serie} from "../../common/serie";
 import {SerieService} from "../../services/serie.service";
-import {FormBuilder, FormControl, FormGroup} from "@angular/forms";
+import {FormArray, FormBuilder, FormControl, FormGroup} from "@angular/forms";
 import {CategorieService} from "../../services/categorie.service";
 import {Categorie} from "../../common/categorie";
 
@@ -21,20 +21,25 @@ export class SeriesListComponent implements OnInit{
     categories: [''],
     episodes: [0],
     year: [0],
-    plot: ['']
-    //user_score: this.formBuilder.group({
-    //  email: [''],
-    //  score: [0]
-    //})
-
+    plot: [''],
+    user_score: this.formBuilder.group({
+      email: [''],
+      score: [0]
+    })
   });
 
   mynewCategorie = new FormGroup({
     newCategorie: new FormControl('')
   });
 
+  get newCategorie(): any {
+    return this.mynewCategorie.get('newCategorie')?.value;
+  }
+
   categories: string[] = [];
   categories2: Categorie[] = [];
+
+  insertImages: string[] = [];
 
   editar = false;
 
@@ -50,6 +55,7 @@ export class SeriesListComponent implements OnInit{
     this.serieService.getSerieList().subscribe(
       (data: any) => {
         this.series = data;
+        console.log(data);
       }
     );
 
@@ -68,10 +74,10 @@ export class SeriesListComponent implements OnInit{
 
   puntuacionMedia2(serie: Serie): number{
     let total = 0;
-    serie.user_score.forEach((user) => {
+    serie.user_score!.forEach((user) => {
       total += user.score;
     });
-    let media = total / serie.user_score.length;
+    let media = total / serie.user_score!.length;
     return Math.round(media * 10) / 10;
   }
 
@@ -86,7 +92,9 @@ export class SeriesListComponent implements OnInit{
       );
     }
     else {
-      this.serieService.createSerie(this.formSerie.getRawValue()).subscribe(
+      const serie: Serie = this.formSerie.getRawValue();
+      delete serie.user_score;
+      this.serieService.createSerie(serie).subscribe(
         (data:any) => {
           console.log(data);
           this.listSeries();
@@ -97,7 +105,6 @@ export class SeriesListComponent implements OnInit{
 
   loadSerie(serie: Serie) {
     this.editar = true;
-    console.log("Editar esta en "+this.editar);
     console.log(serie);
     this.formSerie.setValue(serie);
     console.log(this.formSerie);
@@ -105,6 +112,7 @@ export class SeriesListComponent implements OnInit{
 
   newSerie() {
     this.formSerie.reset();
+    this.insertImages = ['', '', ''];
     this.editar = false;
   }
 
@@ -127,7 +135,7 @@ export class SeriesListComponent implements OnInit{
   }
 
   removeSerie(serie: Serie) {
-    if (confirm('Desea borrar '+serie.title+'?')) {
+    if (confirm('¿Desea borrar '+serie.title+'?')) {
       this.serieService.removeSerie(serie._id).subscribe(
         data => {
           console.log(data);
@@ -135,5 +143,9 @@ export class SeriesListComponent implements OnInit{
         }
       );
     }
+  }
+
+  addImage(images: string[]) {
+    images.push('');
   }
 }

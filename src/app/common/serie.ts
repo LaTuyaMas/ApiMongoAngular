@@ -6,7 +6,7 @@ export interface Serie {
   episodes: number;
   year: number;
   plot: string;
-  user_score: [{
+  user_score?: [{
     email: string;
     score: number;
   }]

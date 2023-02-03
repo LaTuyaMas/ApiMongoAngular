@@ -32,7 +32,7 @@
           </div>
 
           <div class="col-md-1 align-self-center align-middle">
-            <small class="badge bg-success p-3 mx-3">{{puntuacionMedia2(s)}}</small>
+            <small class="badge bg-success">{{puntuacionMedia2(s)}}</small>
           </div>
 
           <div class="pb-2"></div>
@@ -53,7 +53,6 @@
     <div class="modal fade" id="miModal" tabindex="-1" aria-labelledby="miModalLabel" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
-
           <div class="modal-header">
 
             <h5 class="modal-title" id="miModalLabel">
@@ -92,23 +91,53 @@
                 <label for="year"> Episodes </label>
               </div>
 
-              <div class="row">
-                <div class="col-8">
-                  <div class="form-floating mb-3">
-                    <input formControlName="images"
-                           type="text" class="form-control"
+              <div class="row" *ngIf="editar">
+                <div *ngFor="let image of formSerie.getRawValue().images; let i = index">
+                  <div class="col-8 mt-3">
+                    <div class="form-floating mb-3">
+                      <input formControlName="images"
+                             type="text" class="form-control"
 
-                           id="images"
+                             id="images"
 
-                           value="{{formSerie.getRawValue().images}}"
-                           placeholder="Images">
-                    <label for="images"> Images </label>
+                             value="{{image}}"
+                             placeholder="Images">
+                      <label for="images"> Image {{i+1}}</label>
+                    </div>
+
                   </div>
 
+                  <div class="col-4">
+                    <img src="{{image || 'assets/images/no_image_icon.png'}}" alt="...">
+                  </div>
                 </div>
+                <div>
+                  <button type="button" class="btn btn-primary mt-2" (click)="addImage(formSerie.getRawValue().images)">Add Image</button>
+                </div>
+              </div>
 
-                <div class="col-4">
-                  <img src="{{formSerie.getRawValue().images || 'assets/images/no_image_icon.png'}}" alt="...">
+              <div class="row" *ngIf="!editar">
+                <div *ngFor="let image of insertImages; let i = index">
+                  <div class="col-8">
+                    <div class="form-floating mb-3">
+                      <input formControlName="images"
+                             type="text" class="form-control"
+
+                             id="newimages"
+
+                             value="{{formSerie.getRawValue().images}}"
+                             placeholder="Images">
+                      <label for="newimages"> Image {{i+1}} </label>
+                    </div>
+
+                  </div>
+
+                  <div class="col-4">
+                    <img src="{{formSerie.getRawValue().images || 'assets/images/no_image_icon.png'}}" alt="...">
+                  </div>
+                </div>
+                <div>
+                  <button type="button" class="btn btn-primary mt-2" (click)="addImage(insertImages)">Add Image</button>
                 </div>
               </div>
 
@@ -123,7 +152,7 @@
                 <label for="plot"> Plot </label>
               </div>
 
-              <!-- select genres -->
+              <!-- select genres
               <div *ngIf="editar">
                 <label for="Select">categories</label>
                 <select class="form-select" id="Select"
@@ -134,11 +163,11 @@
                   </option>
                 </select>
               </div>
-
-              <div *ngIf="!editar">
-                <label for="newSelect">Categories</label>
-                <select class="form-select" id="newSelect"
-                        aria-label="Genres" multiple
+              -->
+              <div>
+                <label for="Select">Categories</label>
+                <select class="form-select" id="Select"
+                        aria-label="Categories" multiple
                         formControlName="categories">
                   <option *ngFor="let cat of categories2" [value]="cat.name">
                     {{cat.name}}
@@ -154,48 +183,42 @@
                       type="text" class="form-control"
                       id="newCategorie"
                       formControlName="newCategorie"
-                      value=""
                       placeholder="New Genre">
                     <label for="newCategorie"> New Categorie </label>
                   </div>
                 </div>
 
-                <!--
                 <div class="col-md-4 mt-2">
                   <h3>
                     <i class="fas fa-plus-circle pointer"
-                       (click)="addNewCategorie(mynewCategorie.getRawValue().newCategorie)"></i>
+                       (click)="addNewCategorie(newCategorie)"></i>
                   </h3>
                 </div>
-                -->
               </div>
-              <!--
-              <fieldset formGroupName="imdb">
+            <!--
+              <fieldset formGroupName="user_score" *ngIf="editar">
                 <legend>User Scores</legend>
-                <div *ngFor="let user of formSerie.getRawValue().user_score">
+                <div *ngFor="let user of s.user_score" class="row mt-2">
 
-                  <div class="form-floating mb-3">
+                  <div class="form-floating col-4">
                     <input formControlName="email"
                            type="text" class="form-control"
                            id="email" value="{{user.email}}"
-                           placeholder="Title">
-                    <label for="title"> Title </label>
+                           placeholder="Email">
+                    <label for="email"> Email </label>
                   </div>
 
-                  <div class="form-floating mb-3">
-                    <input formControlName="rating"
+                  <div class="form-floating col-4">
+                    <input formControlName="score"
                            type="number" class="form-control"
-
-                           id="rating"
-
+                           id="score"
                            value="{{user.score}}"
-
-                           placeholder="Rating">
-                    <label for="rating">Score</label>
+                           placeholder="Score">
+                    <label for="score">Score</label>
                   </div>
                 </div>
               </fieldset>
-              -->
+            -->
             </div>
 
             <div class="modal-footer">
