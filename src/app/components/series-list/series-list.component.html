@@ -91,15 +91,12 @@
                 <label for="year"> Episodes </label>
               </div>
 
-              <div class="row" *ngIf="editar">
-                <div *ngFor="let image of formSerie.getRawValue().images; let i = index">
+              <div class="row" *ngFor="let image of auxImages; let i = index">
                   <div class="col-8 mt-3">
                     <div class="form-floating mb-3">
-                      <input formControlName="images"
+                      <input formArrayName="images"
                              type="text" class="form-control"
-
                              id="images"
-
                              value="{{image}}"
                              placeholder="Images">
                       <label for="images"> Image {{i+1}}</label>
@@ -110,36 +107,11 @@
                   <div class="col-4">
                     <img src="{{image || 'assets/images/no_image_icon.png'}}" alt="...">
                   </div>
-                </div>
-                <div>
-                  <button type="button" class="btn btn-primary mt-2" (click)="addImage(formSerie.getRawValue().images)">Add Image</button>
-                </div>
+
               </div>
-
-              <div class="row" *ngIf="!editar">
-                <div *ngFor="let image of insertImages; let i = index">
-                  <div class="col-8">
-                    <div class="form-floating mb-3">
-                      <input formControlName="images"
-                             type="text" class="form-control"
-
-                             id="newimages"
-
-                             value="{{formSerie.getRawValue().images}}"
-                             placeholder="Images">
-                      <label for="newimages"> Image {{i+1}} </label>
-                    </div>
-
-                  </div>
-
-                  <div class="col-4">
-                    <img src="{{formSerie.getRawValue().images || 'assets/images/no_image_icon.png'}}" alt="...">
-                  </div>
-                </div>
-                <div>
-                  <button type="button" class="btn btn-primary mt-2" (click)="addImage(insertImages)">Add Image</button>
-                </div>
-              </div>
+              <div class="row">
+              <button type="button" class="btn btn-primary mt-2" (click)="addImage()">Add Image</button>
+            </div>
 
               <div class="form-floating mb-3 mt-3">
                 <textarea formControlName="plot"
