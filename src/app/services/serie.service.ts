@@ -19,6 +19,7 @@ export class SerieService {
   }
 
   updateSerie(id: string, serie: Serie) {
+    console.log(serie);
     return this.http.put(this.baseURL+"/"+id, serie);
   }
 

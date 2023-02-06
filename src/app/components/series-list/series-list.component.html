@@ -91,6 +91,7 @@
                 <label for="year"> Episodes </label>
               </div>
 
+              <!--
               <div class="row" *ngFor="let image of auxImages; let i = index">
                   <div class="col-8 mt-3">
                     <div class="form-floating mb-3">
@@ -107,11 +108,30 @@
                   <div class="col-4">
                     <img src="{{image || 'assets/images/no_image_icon.png'}}" alt="...">
                   </div>
-
               </div>
+              -->
+
+              <div *ngFor="let image of images.controls; let i = index">
+                <div class="col-8 mt-3">
+                  <div class="form-floating mb-3">
+                    <input formArrayName="images"
+                           type="text" class="form-control"
+                           id="images"
+                           value="{{image.getRawValue()}}"
+                           placeholder="Images">
+                    <label for="images"> Image {{i+1}}</label>
+                  </div>
+                </div>
+
+                <div class="col-4">
+                  <img src="{{image.getRawValue() || 'assets/images/no_image_icon.png'}}" alt="...">
+                </div>
+              </div>
+
               <div class="row">
               <button type="button" class="btn btn-primary mt-2" (click)="addImage()">Add Image</button>
-            </div>
+              </div>
+
 
               <div class="form-floating mb-3 mt-3">
                 <textarea formControlName="plot"
@@ -167,30 +187,30 @@
                   </h3>
                 </div>
               </div>
-            <!--
-              <fieldset formGroupName="user_score" *ngIf="editar">
+              <!--
+              <fieldset formArrayName="user_score" *ngIf="editar">
                 <legend>User Scores</legend>
-                <div *ngFor="let user of s.user_score" class="row mt-2">
+                <div *ngFor="let user of user_scores.controls; let index = index" class="row mt-2">
 
-                  <div class="form-floating col-4">
+                  <div class="form-floating col-4" [formGroupName]="index">
                     <input formControlName="email"
                            type="text" class="form-control"
-                           id="email" value="{{user.email}}"
+                           id="email" value="{{user}}"
                            placeholder="Email">
                     <label for="email"> Email </label>
                   </div>
 
-                  <div class="form-floating col-4">
+                  <div class="form-floating col-4" [formGroupName]="index">
                     <input formControlName="score"
                            type="number" class="form-control"
                            id="score"
-                           value="{{user.score}}"
+                           value="{{user}}"
                            placeholder="Score">
                     <label for="score">Score</label>
                   </div>
                 </div>
               </fieldset>
-            -->
+              -->
             </div>
 
             <div class="modal-footer">

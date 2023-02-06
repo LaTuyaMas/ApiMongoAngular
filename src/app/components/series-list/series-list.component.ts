@@ -11,18 +11,22 @@ import {Categorie} from "../../common/categorie";
   styleUrls: ['./series-list.component.css']
 })
 export class SeriesListComponent implements OnInit{
-
   series: Serie[] = [];
 
   formSerie: FormGroup = this.formBuilder.group({
     _id: [''],
-    images: [],
+    images: this.formBuilder.array([
+      //new FormControl(''),
+      //new FormControl(''),
+      //new FormControl('')
+    ]),
     title: [''],
     categories: [''],
     episodes: [0],
     year: [0],
     plot: [''],
     user_score: []
+    //user_score: this.formBuilder.array([])
     //user_score: this.formBuilder.group({
     //  email: [''],
     //  score: [0]
@@ -50,6 +54,21 @@ export class SeriesListComponent implements OnInit{
 
   ngOnInit(): void {
     this.listSeries();
+  }
+
+  showImages() {
+    console.log(this.images.value);
+  }
+
+  get images() : FormArray {
+    return this.formSerie.controls["images"] as FormArray;
+  }
+
+  addImage(/*images: string[]*/) {
+    //console.log(this.formSerie.get('images')?.value);
+    //this.auxImages.push('');
+    //this.auxImages.length = this.auxImages.length+1;
+    this.images.push(new FormControl(''));
   }
 
   listSeries(): void {
@@ -106,8 +125,14 @@ export class SeriesListComponent implements OnInit{
 
   loadSerie(serie: Serie) {
     this.formSerie.reset();
+    this.images.clear();
     this.editar = true;
     console.log(serie);
+
+    for (let i = 0; i < serie.images.length; i++) {
+      this.images.push(new FormControl(''));
+    }
+
     this.formSerie.setValue(serie);
     this.auxImages = this.formSerie.get('images')?.value;
     console.log(this.formSerie);
@@ -146,15 +171,5 @@ export class SeriesListComponent implements OnInit{
         }
       );
     }
-  }
-
-  getImages(): void{
-    this.auxImages = this.formSerie.get('images')?.value;
-  }
-
-  addImage(/*images: string[]*/) {
-    //console.log(this.formSerie.get('images')?.value);
-    this.auxImages.push('');
-    //this.auxImages.length = this.auxImages.length+1;
   }
 }
