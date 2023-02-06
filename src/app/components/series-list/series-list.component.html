@@ -110,21 +110,22 @@
                   </div>
               </div>
               -->
-
-              <div *ngFor="let image of images.controls; let i = index">
-                <div class="col-8 mt-3">
-                  <div class="form-floating mb-3">
-                    <input formArrayName="images"
-                           type="text" class="form-control"
-                           id="images"
-                           value="{{image.getRawValue()}}"
-                           placeholder="Images">
-                    <label for="images"> Image {{i+1}}</label>
+              <div class="row" formArrayName="images">
+                <div *ngFor="let image of images.controls; let i = index">
+                  <div class="col-8 mt-3">
+                    <div class="form-floating mb-3">
+                      <input [formControlName]="i"
+                             type="text" class="form-control"
+                             id="images"
+                             value="{{image.getRawValue()}}"
+                             placeholder="Images">
+                      <label for="images"> Image {{i+1}}</label>
+                    </div>
                   </div>
-                </div>
 
-                <div class="col-4">
-                  <img src="{{image.getRawValue() || 'assets/images/no_image_icon.png'}}" alt="...">
+                  <div class="col-4">
+                    <img src="{{image.getRawValue() || 'assets/images/no_image_icon.png'}}" alt="...">
+                  </div>
                 </div>
               </div>
 
