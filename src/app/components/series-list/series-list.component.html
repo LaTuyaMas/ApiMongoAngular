@@ -126,18 +126,7 @@
                 <label for="plot"> Plot </label>
               </div>
 
-              <!-- select genres
-              <div *ngIf="editar">
-                <label for="Select">categories</label>
-                <select class="form-select" id="Select"
-                        aria-label="Categories" multiple
-                        formControlName="categories">
-                  <option *ngFor="let gen of formSerie.getRawValue().categories" [value]="gen">
-                    {{gen}}
-                  </option>
-                </select>
-              </div>
-              -->
+
               <div>
                 <label for="Select">Categories</label>
                 <select class="form-select" id="Select"
@@ -169,30 +158,30 @@
                   </h3>
                 </div>
               </div>
-              <!--
+
               <fieldset formArrayName="user_score" *ngIf="editar">
                 <legend>User Scores</legend>
-                <div *ngFor="let user of user_scores.controls; let index = index" class="row mt-2">
+                <div *ngFor="let user of user_scores.controls; let i = index" class="row mt-2">
 
-                  <div class="form-floating col-4" [formGroupName]="index">
+                  <div class="form-floating col-8" [formGroupName]="i">
                     <input formControlName="email"
                            type="text" class="form-control"
-                           id="email" value="{{user}}"
+                           id="email" value="{{user.getRawValue().email}}"
                            placeholder="Email">
                     <label for="email"> Email </label>
                   </div>
 
-                  <div class="form-floating col-4" [formGroupName]="index">
+                  <div class="form-floating col-4" [formGroupName]="i">
                     <input formControlName="score"
                            type="number" class="form-control"
                            id="score"
-                           value="{{user}}"
+                           value="{{user.getRawValue().score}}"
                            placeholder="Score">
                     <label for="score">Score</label>
                   </div>
                 </div>
               </fieldset>
-              -->
+
             </div>
 
             <div class="modal-footer">

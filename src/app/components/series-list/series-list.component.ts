@@ -11,6 +11,8 @@ import {Categorie} from "../../common/categorie";
   styleUrls: ['./series-list.component.css']
 })
 export class SeriesListComponent implements OnInit{
+
+  // DECLARACIÓN DE VARIABLES [
   series: Serie[] = [];
 
   formSerie: FormGroup = this.formBuilder.group({
@@ -21,26 +23,18 @@ export class SeriesListComponent implements OnInit{
     episodes: [0],
     year: [0],
     plot: [''],
-    user_score: []
-    //user_score: this.formBuilder.array([])
-    //user_score: this.formBuilder.group({
-    //  email: [''],
-    //  score: [0]
-    //})
+    user_score: this.formBuilder.array([])
   });
 
   mynewCategorie = new FormGroup({
     newCategorie: new FormControl('')
   });
 
-  get newCategorie(): any {
-    return this.mynewCategorie.get('newCategorie')?.value;
-  }
-
   categories: string[] = [];
   categories2: Categorie[] = [];
 
   editar = false;
+  // ] DECLARACIÓN DE VARIABLES
 
   constructor(private serieService: SerieService,
               private categorieService: CategorieService,
@@ -48,6 +42,16 @@ export class SeriesListComponent implements OnInit{
 
   ngOnInit(): void {
     this.listSeries();
+  }
+
+  // GETTERS Y FUNCIONES DE ARRAYS [
+
+  menssageConsole(data:any) {
+    console.log(data);
+  }
+
+  get newCategorie(): any {
+    return this.mynewCategorie.get('newCategorie')?.value;
   }
 
   showImages() {
@@ -61,6 +65,13 @@ export class SeriesListComponent implements OnInit{
   addImage() {
     this.images.push(new FormControl(''));
   }
+
+  get user_scores() : FormArray {
+    return this.formSerie.get("user_score") as FormArray;
+  }
+
+  // ] GETTERS Y FUNCIONES DE ARRAYS
+  // FUNCIONES [
 
   listSeries(): void {
     this.serieService.getSerieList().subscribe(
@@ -117,11 +128,21 @@ export class SeriesListComponent implements OnInit{
   loadSerie(serie: Serie) {
     this.formSerie.reset();
     this.images.clear();
+    this.user_scores.clear();
     this.editar = true;
     console.log(serie);
 
     for (let i = 0; i < serie.images.length; i++) {
       this.images.push(new FormControl(''));
+    }
+
+    for (let i = 0; i < serie.user_score!.length; i++) {
+      this.user_scores.push(
+        this.formBuilder.group({
+          email: serie.user_score![i].email,
+          score: serie.user_score![i].score
+        })
+      );
     }
 
     this.formSerie.setValue(serie);
@@ -166,4 +187,5 @@ export class SeriesListComponent implements OnInit{
       );
     }
   }
+  // ] FUNCIONES
 }
