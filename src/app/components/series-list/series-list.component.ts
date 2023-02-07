@@ -15,11 +15,7 @@ export class SeriesListComponent implements OnInit{
 
   formSerie: FormGroup = this.formBuilder.group({
     _id: [''],
-    images: this.formBuilder.array([
-      //new FormControl(''),
-      //new FormControl(''),
-      //new FormControl('')
-    ]),
+    images: this.formBuilder.array([]),
     title: [''],
     categories: [''],
     episodes: [0],
@@ -44,8 +40,6 @@ export class SeriesListComponent implements OnInit{
   categories: string[] = [];
   categories2: Categorie[] = [];
 
-  auxImages: string[] = [];
-
   editar = false;
 
   constructor(private serieService: SerieService,
@@ -64,10 +58,7 @@ export class SeriesListComponent implements OnInit{
     return this.formSerie.controls["images"] as FormArray;
   }
 
-  addImage(/*images: string[]*/) {
-    //console.log(this.formSerie.get('images')?.value);
-    //this.auxImages.push('');
-    //this.auxImages.length = this.auxImages.length+1;
+  addImage() {
     this.images.push(new FormControl(''));
   }
 
@@ -134,14 +125,17 @@ export class SeriesListComponent implements OnInit{
     }
 
     this.formSerie.setValue(serie);
-    this.auxImages = this.formSerie.get('images')?.value;
     console.log(this.formSerie);
   }
 
   newSerie() {
     this.formSerie.reset();
-    this.auxImages = ['', '', ''];
+    this.images.clear();
     this.editar = false;
+
+    for (let i = 0; i < 3; i++) {
+      this.images.push(new FormControl(''));
+    }
   }
 
   addNewCategorie(newCategorie: string) {

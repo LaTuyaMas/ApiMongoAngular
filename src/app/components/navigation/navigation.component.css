@@ -1,0 +1,12 @@
+.navbar {
+  background-color: #79b6dc;
+}
+
+#titulo {
+  color: black;
+  font-size: 3em;
+  font-family: Impact, sans-serif;
+  text-align: center;
+  font-style: unset;
+  margin: auto;
+}

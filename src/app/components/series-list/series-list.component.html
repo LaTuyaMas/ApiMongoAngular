@@ -1,11 +1,11 @@
 <div class="container-fluid">
 
-  <div class="w-100 d-flex">
-    <h3 class="mt-2 d-inline-block me-auto">
+  <div class="w-100 d-flex mb-2">
+    <h3 class="mt-2 d-inline-block me-auto ms-3">
       {{series.length}}
       Series
     </h3>
-    <h3 class="d-inline-block ms-auto pointer"
+    <h3 class="d-inline-block ms-auto me-3 mt-2 pointer"
         (click)="newSerie()"
         data-bs-toggle="modal"
         data-bs-target="#miModal">
@@ -15,18 +15,18 @@
   </div>
 
   <div class="container" *ngFor="let s of series">
-    <div class="row border rounded">
+    <div class="row border-black">
 
       <div class="col-md-11">
         <div (click)="loadSerie(s)" data-bs-toggle="modal" data-bs-target="#miModal" class="row mt-3 pt-2">
           <div class="col-md-2">
-            <img src="{{s.images[0] || 'assets/images/no_image_icon.png'}}" alt="{{s.title}}">
+            <img class="border-black" src="{{s.images[0] || 'assets/images/no_image_icon.png'}}" alt="{{s.title}}">
           </div>
 
           <div class="col-md-9">
             <h5>{{s.title}}</h5>
-            <small class="text-danger">{{s.categories}}</small>
-            <p><b>Episodes</b>: {{s.episodes}} - <b>Year</b>:
+            <small id="text-extradanger">{{s.categories}}</small>
+            <p><b>Episodes:</b> {{s.episodes}} -- <b>Year:</b>
               {{s.year}}</p>
             <p class="plot_box">{{s.plot}}</p>
           </div>
@@ -91,25 +91,6 @@
                 <label for="year"> Episodes </label>
               </div>
 
-              <!--
-              <div class="row" *ngFor="let image of auxImages; let i = index">
-                  <div class="col-8 mt-3">
-                    <div class="form-floating mb-3">
-                      <input formArrayName="images"
-                             type="text" class="form-control"
-                             id="images"
-                             value="{{image}}"
-                             placeholder="Images">
-                      <label for="images"> Image {{i+1}}</label>
-                    </div>
-
-                  </div>
-
-                  <div class="col-4">
-                    <img src="{{image || 'assets/images/no_image_icon.png'}}" alt="...">
-                  </div>
-              </div>
-              -->
               <div class="row" formArrayName="images">
                 <div *ngFor="let image of images.controls; let i = index">
                   <div class="col-8 mt-3">

@@ -1,12 +1,31 @@
+.container-fluid {
+  background-color: #3880ff;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.container {
+  background-color: #3dc2ff;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+#text-extradanger {
+  color: #b60000;
+}
+
 img{
   width: 100%;
 }
-.border{
-  box-shadow: 2px 2px lightgrey;
+
+.border-black {
+  box-shadow: 2px 2px black;
 }
+
 .row:hover, pointer:hover{
   cursor: pointer;
 }
+
 .fa-plus-circle{
   color: limegreen;
 }
