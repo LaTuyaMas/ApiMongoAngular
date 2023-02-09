@@ -130,7 +130,8 @@
               <div>
                 <label for="Select">Categories</label>
                 <select class="form-select" id="Select"
-                        aria-label="Categories" multiple
+                        aria-label="Categories"
+                        multiple="multiple"
                         formControlName="categories">
                   <option *ngFor="let cat of categories2" [value]="cat.name">
                     {{cat.name}}
@@ -138,23 +139,29 @@
                 </select>
               </div>
 
-              <!-- Add New Genre -->
+              <!-- Add New Categorie -->
               <div class="row mt-3">
                 <div class="col-md-8">
-                  <div [formGroup]="mynewCategorie" class="form-floating mb-3">
+                  <div [formGroup]="newCategorie" class="form-floating mb-3">
                     <input
                       type="text" class="form-control"
-                      id="newCategorie"
-                      formControlName="newCategorie"
-                      placeholder="New Genre">
-                    <label for="newCategorie"> New Categorie </label>
+                      id="newCategorieName"
+                      formControlName="name"
+                      placeholder="New name for Categorie">
+                    <label for="newCategorieName"> New Categorie - Name </label>
+                    <input
+                      type="text" class="form-control"
+                      id="newCategorieIcon"
+                      formControlName="icon"
+                      placeholder="New icon for Categorie">
+                    <label for="newCategorieIcon" id="labelForIcon"> New Categorie - Icon </label>
                   </div>
                 </div>
 
                 <div class="col-md-4 mt-2">
                   <h3>
                     <i class="fas fa-plus-circle pointer"
-                       (click)="addNewCategorie(newCategorie)"></i>
+                       (click)="addNewCategorie()"></i>
                   </h3>
                 </div>
               </div>

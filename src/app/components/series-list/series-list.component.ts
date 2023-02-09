@@ -26,8 +26,10 @@ export class SeriesListComponent implements OnInit{
     user_score: this.formBuilder.array([])
   });
 
-  mynewCategorie = new FormGroup({
-    newCategorie: new FormControl('')
+  newCategorie: FormGroup = this.formBuilder.group( {
+    _id: [''],
+    name: [''],
+    icon: ['']
   });
 
   categories: string[] = [];
@@ -45,18 +47,6 @@ export class SeriesListComponent implements OnInit{
   }
 
   // GETTERS Y FUNCIONES DE ARRAYS [
-
-  menssageConsole(data:any) {
-    console.log(data);
-  }
-
-  get newCategorie(): any {
-    return this.mynewCategorie.get('newCategorie')?.value;
-  }
-
-  showImages() {
-    console.log(this.images.value);
-  }
 
   get images() : FormArray {
     return this.formSerie.controls["images"] as FormArray;
@@ -116,6 +106,7 @@ export class SeriesListComponent implements OnInit{
     else {
       const serie: Serie = this.formSerie.getRawValue();
       delete serie.user_score;
+      console.log(serie);
       this.serieService.createSerie(serie).subscribe(
         (data:any) => {
           console.log(data);
@@ -127,6 +118,7 @@ export class SeriesListComponent implements OnInit{
 
   loadSerie(serie: Serie) {
     this.formSerie.reset();
+    this.newCategorie.reset();
     this.images.clear();
     this.user_scores.clear();
     this.editar = true;
@@ -151,6 +143,7 @@ export class SeriesListComponent implements OnInit{
 
   newSerie() {
     this.formSerie.reset();
+    this.newCategorie.reset();
     this.images.clear();
     this.editar = false;
 
@@ -159,22 +152,29 @@ export class SeriesListComponent implements OnInit{
     }
   }
 
-  addNewCategorie(newCategorie: string) {
-    let newCategories;
+  addNewCategorie(/*newCategorieName: string, newCategorieIcon: string*/) {
+    if (this.newCategorie.get('name')?.getRawValue() != '' || this.newCategorie.get('icon')?.getRawValue() != ''){
+      const categorie: Categorie = this.newCategorie.getRawValue();
+      console.log(categorie);
+      let newCategories;
 
-    if (!this.editar) {
-      this.categories.push(newCategorie);
-    }
-    else {
       newCategories = this.formSerie.getRawValue().categories;
-      newCategories.push(newCategorie);
+      newCategories.push(categorie.name);
+
+      this.categorieService.createCategorie(categorie).subscribe(
+        (data:any) => {
+          console.log(data);
+        }
+      );
+
       this.formSerie.setControl(
         'categories',
         new FormControl(newCategories)
       );
-    }
 
-    this.mynewCategorie.reset();
+
+      this.newCategorie.reset();
+    }
   }
 
   removeSerie(serie: Serie) {

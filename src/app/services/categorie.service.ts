@@ -13,4 +13,8 @@ export class CategorieService {
   getCategorieList(): Observable<Categorie[]> {
     return this.http.get<Categorie[]>(this.baseURL+"/");
   }
+
+  createCategorie(categorie: Categorie) {
+    return this.http.post(this.baseURL+"/", categorie);
+  }
 }
