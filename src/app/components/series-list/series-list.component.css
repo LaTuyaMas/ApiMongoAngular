@@ -10,6 +10,23 @@
   padding-bottom: 0;
 }
 
+.modal-header {
+  background-color: #2dd36f;
+}
+
+.modal-body {
+  background-color: #3880ff;
+}
+
+.modal-footer {
+  background-color: #163cff;
+}
+
+.btnImage {
+  background-color: #163cff;
+  color: white;
+}
+
 #text-extradanger {
   color: #b60000;
 }
